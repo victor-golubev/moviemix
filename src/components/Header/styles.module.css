@@ -1,0 +1,45 @@
+.header {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  margin: 16px auto;
+  padding: 20px 0;
+}
+
+.searchWrapper {
+  text-align: center;
+}
+
+.input {
+  flex: 1;
+  width: 80%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px 0 0 8px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.button {
+  padding: 10px 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0 8px 8px 0;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: #0056b3;
+}
+
+.button:focus {
+  outline: 2px solid #0056b3;
+  outline-offset: 2px;
+}

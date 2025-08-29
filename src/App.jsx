@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header/Header";
+import LatestMovies from "./components/LatestMovies/LatestMovies";
 
 function App() {
   const URL = "https://api.kinopoisk.dev/v1.4/";
@@ -31,6 +32,9 @@ function App() {
   return (
     <>
       <Header />
+      <main>
+        <LatestMovies />
+      </main>
       {/* {movies.map((movie) => (
         <div key={movie.id}>{movie.name}</div>
       ))} */}

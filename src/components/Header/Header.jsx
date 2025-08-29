@@ -27,13 +27,20 @@ function Header() {
 
   return (
     <div className={styles.header}>
-      <input
-        type="text"
-        value={searchValue}
-        onChange={handleChange}
-        onKeyDown={handleKeyPress}
-      />
-      <button onClick={handleClick}>Поиск</button>
+      <div className="container">
+        <div className={styles.searchWrapper}>
+          <input
+            className={styles.input}
+            type="text"
+            value={searchValue}
+            onChange={handleChange}
+            onKeyDown={handleKeyPress}
+          />
+          <button className={styles.button} onClick={handleClick}>
+            Поиск
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
