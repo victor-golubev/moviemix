@@ -6,8 +6,29 @@
   padding: 20px 0;
 }
 
+.header_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 0 auto;
+}
+
 .searchWrapper {
-  text-align: center;
+  flex: 1; /* занимает всё свободное место */
+  display: flex;
+}
+
+.logo {
+  width: 30%;
+  text-transform: uppercase;
+  font-size: 56px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.logo span {
+  color: #ff2779;
 }
 
 .input {
@@ -21,13 +42,13 @@
 }
 
 .input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: #ff2779;
+  box-shadow: 0 0 0 2px #ff2779(0, 123, 255, 0.25);
 }
 
 .button {
   padding: 10px 16px;
-  background: #007bff;
+  background: #ff2779;
   color: white;
   border: none;
   border-radius: 0 8px 8px 0;
@@ -36,10 +57,5 @@
 }
 
 .button:hover {
-  background: #0056b3;
-}
-
-.button:focus {
-  outline: 2px solid #0056b3;
-  outline-offset: 2px;
+  background: #ff2779;
 }

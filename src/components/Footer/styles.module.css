@@ -1,0 +1,29 @@
+.footer {
+  margin-top: 50px;
+  padding: 40px 0;
+  background-color: #080423;
+}
+
+.footer_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  width: 30%;
+  text-transform: uppercase;
+  font-size: 56px;
+  font-weight: 700;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.logo span {
+  color: #ff2779;
+}
+
+.copyright {
+  font-size: 22px;
+  color: #fff;
+}

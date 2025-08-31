@@ -1,43 +1,26 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header/Header";
 import LatestMovies from "./components/LatestMovies/LatestMovies";
+import MoviesTabs from "./components/MoviesTabs/MoviesTabs";
+import useFetch from "./helpers/hooks/useFetch";
+import Footer from "./components/Footer/Footer";
+import MoviesCategories from "./components/MoviesCategories/MoviesCategories";
 
 function App() {
-  const URL = "https://api.kinopoisk.dev/v1.4/";
-  // const KEY = "SWV2KSD-5XMMY33-QSHEHBP-K76HDKA";
-  const [movies, setMovies] = useState([]);
-
-  useEffect(() => {
-    async function fetchMovies() {
-      try {
-        const response = await fetch(URL, {
-          headers: {
-            "X-API-KEY": KEY,
-            "Content-Type": "application/json",
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Fetch error");
-        }
-        const result = await response.json();
-        setMovies(result.docs);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchMovies();
-  }, []);
+  const { data, isLoading, error } = useFetch({
+    endpoint: "movie",
+    query: "field=year&search=2025-2025",
+  });
 
   return (
     <>
       <Header />
       <main>
-        <LatestMovies />
+        <LatestMovies movies={data} />
+        <MoviesTabs />
+        <MoviesCategories />
       </main>
-      {/* {movies.map((movie) => (
-        <div key={movie.id}>{movie.name}</div>
-      ))} */}
+      <Footer />
     </>
   );
 }

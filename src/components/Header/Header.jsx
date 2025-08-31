@@ -27,7 +27,10 @@ function Header() {
 
   return (
     <div className={styles.header}>
-      <div className="container">
+      <div className={`container ${styles.header_container}`}>
+        <div className={styles.logo}>
+          Movie<span>mix</span>
+        </div>
         <div className={styles.searchWrapper}>
           <input
             className={styles.input}

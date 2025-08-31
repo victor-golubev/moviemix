@@ -1,5 +1,6 @@
-.slider {
-}
-
-.title {
+.slider_title {
+  font-size: 42px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 20px;
 }
