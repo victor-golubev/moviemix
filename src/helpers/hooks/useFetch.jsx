@@ -6,7 +6,7 @@ function useFetch({ endpoint = "", query = "" }) {
   const [error, setError] = useState(null);
 
   const URL = "https://api.kinopoisk.dev/v1.4/";
-  const KEY = "SWV2KSD-5XMMY33-QSHEHBP-K76HDKA";
+  const API_KEY = import.meta.env.VITE_KINOPOISK_API_KEY;
 
   useEffect(() => {
     if (!endpoint) return;
@@ -21,7 +21,7 @@ function useFetch({ endpoint = "", query = "" }) {
         const url = `${URL}${endpoint}${query ? `?${query}` : ""}`;
         const response = await fetch(url, {
           headers: {
-            "X-API-KEY": KEY,
+            "X-API-KEY": API_KEY,
             "Content-Type": "application/json",
           },
           signal: controller.signal,

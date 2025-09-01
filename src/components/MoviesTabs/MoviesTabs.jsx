@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import styles from "./styles.module.css";
 import useFetch from "../../helpers/hooks/useFetch";
+const API_KEY = import.meta.env.VITE_KINOPOISK_API_KEY;
+import noPhoto from "../../img/no-photo.jpg";
 
 const tabs = [
   {
@@ -39,7 +41,7 @@ function MoviesTabs() {
             `https://api.kinopoisk.dev/v1.4/${tab.endpoint}?${tab.query}&limit=8`,
             {
               headers: {
-                "X-API-KEY": "SWV2KSD-5XMMY33-QSHEHBP-K76HDKA",
+                "X-API-KEY": API_KEY,
                 "Content-Type": "application/json",
               },
             }
@@ -87,7 +89,12 @@ function MoviesTabs() {
           {activeData?.map((movie) => (
             <div key={movie.id} className={styles.item}>
               <div className={styles.poster}>
-                <img src={`${movie.poster?.previewUrl}`} alt="poster" />
+                <img
+                  src={
+                    movie.poster?.previewUrl ? movie.poster.previewUrl : noPhoto
+                  }
+                  alt={movie.name || movie.alternativeName}
+                />
               </div>
               <div className={styles.name}>
                 {movie.name || movie.alternativeName}
