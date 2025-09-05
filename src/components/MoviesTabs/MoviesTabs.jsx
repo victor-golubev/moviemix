@@ -2,64 +2,48 @@ import { useState, useEffect } from "react";
 import styles from "./styles.module.css";
 import useFetch from "../../helpers/hooks/useFetch";
 const API_KEY = import.meta.env.VITE_KINOPOISK_API_KEY;
-import noPhoto from "../../img/no-photo.jpg";
-
-const tabs = [
-  {
-    id: "tab1",
-    label: "Популярные фильмы",
-    endpoint: "movie",
-    query: "type=movie&rating.imdb=8-10",
-  },
-  {
-    id: "tab2",
-    label: "Популярные сериалы",
-    endpoint: "movie",
-    query: "type=tv-series&rating.imdb=8-10",
-  },
-  {
-    id: "tab3",
-    label: "Подборка фильмов",
-    endpoint: "movie",
-    query: "type=movie&lists=top250",
-  },
-];
+import { Link } from "react-router-dom";
+import CardMovie from "../CardMovie/CardMovie";
+import tabs from "../../helpers/tabs";
 
 function MoviesTabs() {
   const [activeTab, setActiveTab] = useState(0);
   const [moviesData, setMoviesData] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState({});
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const fetchAllTabs = async () => {
-      setLoading(true);
+    const fetchTabs = async () => {
+      const promises = tabs.map(async (tab) => {
+        setErrors((prev) => ({ ...prev, [tab.id]: true }));
 
-      for (const tab of tabs) {
         try {
-          const response = await fetch(
+          const res = await fetch(
             `https://api.kinopoisk.dev/v1.4/${tab.endpoint}?${tab.query}&limit=8`,
-            {
-              headers: {
-                "X-API-KEY": API_KEY,
-                "Content-Type": "application/json",
-              },
-            }
+            { headers: { "X-API-KEY": API_KEY } }
           );
-
-          if (!response.ok) throw new Error("Fetch error");
-
-          const result = await response.json();
-          setMoviesData((prev) => ({ ...prev, [tab.id]: result.docs }));
+          if (!res.ok) throw new Error("Fetch error");
+          const data = await res.json();
+          return { id: tab.id, data: data.docs };
         } catch (err) {
-          setErrors((prev) => ({ ...prev, [tab.id]: err }));
+          return { id: tab.id, error: err };
+        } finally {
+          setErrors((prev) => ({ ...prev, [tab.id]: false }));
         }
-      }
+      });
 
-      setLoading(false);
+      const results = await Promise.all(promises);
+      const newMovies = {};
+      const newErrors = {};
+      results.forEach((r) => {
+        if (r.data) newMovies[r.id] = r.data;
+        if (r.error) newErrors[r.id] = r.error;
+      });
+      setMoviesData(newMovies);
+      setErrors(newErrors);
     };
 
-    fetchAllTabs();
+    fetchTabs();
   }, []);
 
   const activeData = moviesData[tabs[activeTab].id];
@@ -69,44 +53,38 @@ function MoviesTabs() {
     <section className={styles.tabs}>
       <div className="container">
         <h3 className="section-title">Что посмотреть</h3>
-        <div className={styles.labels}>
-          {tabs.map((tab, i) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(i)}
-              className={`${styles.label} ${
-                activeTab === i ? styles.active : ""
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+        <div className={styles.labels_wrapper}>
+          <div className={styles.labels}>
+            {tabs.map((tab, i) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(i)}
+                className={`${styles.label} ${
+                  activeTab === i ? styles.active : ""
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+          <Link to={`/popular-movies`} className={styles.see_all}>
+            Смотреть все
+          </Link>
         </div>
 
         <div className={styles.tab}>
-          {loading && <p>Loading...</p>}
-          {activeError && <p>Error: {activeError.message}</p>}
+          {loading[tabs[activeTab].id] && <p>Загрузка...</p>}
+          {errors[tabs[activeTab].id] && (
+            <p>Ошибка: {errors[tabs[activeTab].id].message}</p>
+          )}
+
           {activeData?.map((movie) => (
-            <div key={movie.id} className={styles.item}>
-              <div className={styles.poster}>
-                <img
-                  src={
-                    movie.poster?.previewUrl ? movie.poster.previewUrl : noPhoto
-                  }
-                  alt={movie.name || movie.alternativeName}
-                />
-              </div>
-              <div className={styles.name}>
-                {movie.name || movie.alternativeName}
-              </div>
-              <div className={styles.info}>
-                <div className={styles.info_year}>{movie.year}</div>
-                <div className={styles.info_rating}>
-                  {movie.rating.imdb > 0 ? movie.rating.imdb : "--"}
-                </div>
-              </div>
-            </div>
+            <CardMovie movie={movie} key={movie.id} />
           ))}
+
+          {!loading[tabs[activeTab].id] && !activeData?.length && (
+            <p>Фильмы не найдены</p>
+          )}
         </div>
       </div>
     </section>

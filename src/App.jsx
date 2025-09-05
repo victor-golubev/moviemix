@@ -1,26 +1,39 @@
-import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
-import LatestMovies from "./components/LatestMovies/LatestMovies";
 import MoviesTabs from "./components/MoviesTabs/MoviesTabs";
-import useFetch from "./helpers/hooks/useFetch";
 import Footer from "./components/Footer/Footer";
 import MoviesCategories from "./components/MoviesCategories/MoviesCategories";
+import SearchResults from "./pages/SearchResults/SearchResults";
+import MovieDetails from "./pages/MovieDetails/MovieDetails";
+import MoviesTabsAll from "./pages/MoviesTabsAll/MoviesTabsAll";
+import MoviesCategoriesAll from "./pages/MoviesCategoriesAll/MoviesCategoriesAll";
+import Slider from "./components/Slider/Slider";
 
 function App() {
-  const { data, isLoading, error } = useFetch({
-    endpoint: "movie",
-    query: "field=year&search=2025-2025",
-  });
-
   return (
     <>
-      <Header />
-      <main>
-        <LatestMovies movies={data} />
-        <MoviesTabs />
-        <MoviesCategories />
-      </main>
-      <Footer />
+      <Router>
+        <Header />
+        <main>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <Slider />
+                  <MoviesTabs />
+                  <MoviesCategories />
+                </>
+              }
+            />
+            <Route path="/search/:query" element={<SearchResults />} />
+            <Route path="/movie/:id" element={<MovieDetails />} />
+            <Route path="/popular-movies/" element={<MoviesTabsAll />} />
+            <Route path="/categories/" element={<MoviesCategoriesAll />} />
+          </Routes>
+        </main>
+        <Footer />
+      </Router>
     </>
   );
 }

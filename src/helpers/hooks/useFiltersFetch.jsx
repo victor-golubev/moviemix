@@ -1,25 +1,25 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
-function useFetch({ endpoint = "movie", query = "", limit, version = "1.4" }) {
+function useFiltersFetch({ field = "" }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const URL = `https://api.kinopoisk.dev/v${version}/`;
+  const URL =
+    "https://api.kinopoisk.dev/v1/movie/possible-values-by-field?field=";
   const API_KEY = import.meta.env.VITE_KINOPOISK_API_KEY;
 
-  const fetchData = useCallback(
-    async (controller) => {
+  useEffect(() => {
+    if (!field) return;
+
+    const controller = new AbortController();
+
+    async function fetchData() {
       setIsLoading(true);
       setError(null);
 
       try {
-        const queryString = [query, limit ? `limit=${limit}` : ""]
-          .filter(Boolean)
-          .join("&");
-
-        const url = `${URL}${endpoint}${queryString ? `?${queryString}` : ""}`;
-
+        const url = `${URL}${field ? `${field}` : ""}`;
         const response = await fetch(url, {
           headers: {
             "X-API-KEY": API_KEY,
@@ -36,7 +36,12 @@ function useFetch({ endpoint = "movie", query = "", limit, version = "1.4" }) {
         }
 
         const result = await response.json();
-        setData(result.docs ?? result ?? []);
+
+        if (result.docs) {
+          setData(result.docs);
+        } else {
+          setData(result);
+        }
       } catch (err) {
         if (err.name !== "AbortError") {
           console.error(err);
@@ -45,25 +50,14 @@ function useFetch({ endpoint = "movie", query = "", limit, version = "1.4" }) {
       } finally {
         setIsLoading(false);
       }
-    },
-    [endpoint, query, limit, version, API_KEY]
-  );
+    }
 
-  useEffect(() => {
-    if (!endpoint) return;
-
-    const controller = new AbortController();
-    fetchData(controller);
+    fetchData();
 
     return () => controller.abort();
-  }, [fetchData]);
+  }, [field]);
 
-  return {
-    data,
-    isLoading,
-    error,
-    refetch: () => fetchData(new AbortController()),
-  };
+  return { data, isLoading, error };
 }
 
-export default useFetch;
+export default useFiltersFetch;

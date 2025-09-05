@@ -1,12 +1,16 @@
 import styles from "./styles.module.css";
 import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
 
 function Header() {
   const [searchValue, setSearchValue] = useState("");
+  const navigate = useNavigate();
 
   const performSearch = () => {
     if (searchValue.trim() !== "") {
-      console.log(searchValue);
+      navigate(`/search/${encodeURIComponent(searchValue)}`);
+      setSearchValue("");
     }
   };
 
@@ -28,9 +32,10 @@ function Header() {
   return (
     <div className={styles.header}>
       <div className={`container ${styles.header_container}`}>
-        <div className={styles.logo}>
+        <Link to={"/"} className={styles.logo}>
           Movie<span>mix</span>
-        </div>
+        </Link>
+
         <div className={styles.searchWrapper}>
           <input
             className={styles.input}
@@ -38,6 +43,7 @@ function Header() {
             value={searchValue}
             onChange={handleChange}
             onKeyDown={handleKeyPress}
+            placeholder="Поиск фильмов..."
           />
           <button className={styles.button} onClick={handleClick}>
             Поиск

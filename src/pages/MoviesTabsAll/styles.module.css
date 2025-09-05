@@ -5,6 +5,11 @@
 }
 
 .tab {
+  display: flex;
+  flex-direction: column;
+}
+
+.tab_content {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 40px;
@@ -96,4 +101,38 @@
   background-color: #ff2779;
   border-radius: 10px;
   padding: 0px 8px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+  gap: 12px;
+}
+
+.pagination button {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border: 1px solid #5c5c5c;
+  color: #5c5c5c;
+  cursor: pointer;
+}
+
+.pagination button:hover {
+  background-color: #ff2779;
+  color: #fff;
+  border: 1px solid #ff2779;
+  transition: color 0.2s ease, background-color 0.2s ease, border 0.2s ease;
+}
+
+.pagination button.activePage {
+  background-color: #ff2779;
+  border: 1px solid #ff2779;
+  color: #fff;
 }
