@@ -12,10 +12,11 @@ function Breadcrumbs() {
   return (
     <nav className={styles.breadcrumbs}>
       <Link to="/" className={styles.link}>
-        {"< Главная"}
+        {"Главная"}
       </Link>
+      <p className={styles.arrow}>{">"}</p>
       <a href="#" onClick={handleBack} className={styles.link}>
-        {" < Назад"}
+        {"Назад"}
       </a>
     </nav>
   );
