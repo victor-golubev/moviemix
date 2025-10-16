@@ -22,7 +22,7 @@ function App() {
                 <>
                   <Slider />
                   <MoviesTabs />
-                  <MoviesCategories />
+                  <MoviesCategories limit={8} />
                 </>
               }
             />

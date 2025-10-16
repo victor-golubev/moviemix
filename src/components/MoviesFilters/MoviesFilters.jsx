@@ -32,9 +32,6 @@ function MoviesFilters({ onChange }) {
     if (filters.year) queryParams.push(`year=${filters.year}`);
     if (filters.rating) queryParams.push(`rating.imdb=${filters.rating}`);
 
-    // Лимит фильмов (например, 8 штук)
-    queryParams.push("limit=8");
-
     onChange(queryParams.join("&"));
   }, [filters, onChange]);
 

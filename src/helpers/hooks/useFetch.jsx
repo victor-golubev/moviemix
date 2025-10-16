@@ -36,7 +36,7 @@ function useFetch({ endpoint = "movie", query = "", limit, version = "1.4" }) {
         }
 
         const result = await response.json();
-        setData(result.docs ?? result ?? []);
+        setData(result ?? []);
       } catch (err) {
         if (err.name !== "AbortError") {
           console.error(err);

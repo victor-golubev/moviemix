@@ -6,10 +6,12 @@ import { useNavigate, Link } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
 import CardMovie from "./../../components/CardMovie/CardMovie";
 import { useState, useEffect } from "react";
+import Skeleton from "../../components/Skeleton/Skeleton";
+import Pagination from "./../../components/Pagination/Pagination";
 
 function SearchResults() {
   const [page, setPage] = useState(1);
-  const [limit] = useState(12); // Лимит на странице
+  const [limit] = useState(8); // Лимит на странице
   const [totalPages, setTotalPages] = useState(1);
 
   const { query } = useParams();
@@ -46,33 +48,37 @@ function SearchResults() {
   const handlePageClick = (num) => setPage(num);
 
   const getVisiblePages = () => {
-    let pages = [];
-    for (let i = 1; i <= totalPages; i++) pages.push(i);
-    return pages;
+    const visiblePages = 5; // Максимальное количество отображаемых кнопок
+    const startPage = Math.max(1, page - Math.floor(visiblePages / 2));
+    const endPage = Math.min(totalPages, startPage + visiblePages - 1);
+
+    return Array.from(
+      { length: endPage - startPage + 1 },
+      (_, i) => startPage + i
+    );
   };
 
   if (isLoading) return <p>Загрузка...</p>;
   if (error) return <p>Ошибка: {error}</p>;
-  if (!data?.length) return <p>Ничего не найдено</p>;
+  if (!data.docs?.length) return <p>Ничего не найдено</p>;
 
   return (
     <div className="container">
       <Breadcrumbs />
+      {isLoading && <Skeleton type="listCard" count={10} />}
+
+      {error && <p>Ошибка: {error}</p>}
+
+      {!data.docs?.length && !error && <p>Ничего не найдено</p>}
+
       <h2 className={styles.title}>Результаты поиска: "{query}"</h2>
       <div className={styles.list}>
-        {data.map((movie) => (
+        {data.docs.map((movie) => (
           <CardMovie movie={movie} key={movie.id} />
         ))}
       </div>
       {totalPages > 1 && (
-        <Pagination
-          page={page}
-          totalPages={totalPages}
-          handlePrevClick={handlePrevClick}
-          handleNextClick={handleNextClick}
-          handlePageClick={handlePageClick}
-          getVisiblePages={getVisiblePages}
-        />
+        <Pagination page={page} totalPages={totalPages} setPage={setPage} />
       )}
     </div>
   );
