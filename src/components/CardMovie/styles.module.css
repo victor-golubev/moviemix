@@ -1,5 +1,15 @@
 .movie {
   width: 100%;
+  transition: filter 0.3s ease;
+  -webkit-transition: filter 0.3s ease;
+  -moz-transition: filter 0.3s ease;
+  -ms-transition: filter 0.3s ease;
+  -o-transition: filter 0.3s ease;
+}
+
+.movie:hover {
+  filter: brightness(110%);
+  -webkit-filter: brightness(110%);
 }
 
 .poster {

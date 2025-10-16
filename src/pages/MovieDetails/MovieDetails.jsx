@@ -5,6 +5,7 @@ import styles from "./styles.module.css";
 import { useNavigate, Link } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
 import CardMovie from "./../../components/CardMovie/CardMovie";
+import MaybeSlider from "../../components/MaybeSlider/MaybeSlider";
 
 function MovieDetails() {
   const { id } = useParams();
@@ -138,18 +139,7 @@ function MovieDetails() {
         </div>
       </div>
 
-      {data.similarMovies && (
-        <div className={styles.similar_movies}>
-          <h3 className={styles.similar_movies_title}>
-            Возможно, вам понравится
-          </h3>
-          <div className={styles.similar_movies_content}>
-            {data.similarMovies?.map((movie) => (
-              <CardMovie movie={movie} key={movie.id} />
-            ))}
-          </div>
-        </div>
-      )}
+      {data.similarMovies && <MaybeSlider data={data.similarMovies} />}
     </div>
   );
 }
