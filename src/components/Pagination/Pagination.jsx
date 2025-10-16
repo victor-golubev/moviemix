@@ -1,13 +1,30 @@
 import styles from "./styles.module.css";
 
-function Pagination({
-  page,
-  totalPages,
-  handlePrevClick,
-  handleNextClick,
-  handlePageClick,
-  getVisiblePages,
-}) {
+function Pagination({ page, totalPages, setPage }) {
+  const handlePageClick = (pageNumber) => {
+    setPage(pageNumber);
+  };
+
+  const handlePrevClick = () => {
+    if (page > 1) setPage(page - 1);
+  };
+
+  const handleNextClick = () => {
+    if (page < totalPages) setPage(page + 1);
+  };
+
+  // Функция для отображения ограниченного количества страниц
+  const getVisiblePages = () => {
+    const visiblePages = 10; // Максимальное количество отображаемых кнопок
+    const startPage = Math.max(1, page - Math.floor(visiblePages / 2));
+    const endPage = Math.min(totalPages, startPage + visiblePages - 1);
+
+    return Array.from(
+      { length: endPage - startPage + 1 },
+      (_, i) => startPage + i
+    );
+  };
+
   return (
     <>
       {totalPages > 1 && (

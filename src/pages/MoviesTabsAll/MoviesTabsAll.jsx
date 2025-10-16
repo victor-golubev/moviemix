@@ -3,6 +3,7 @@ import styles from "./styles.module.css";
 import noPhoto from "../../img/no-photo.jpg";
 import { Link } from "react-router-dom";
 import Skeleton from "../../components/Skeleton/Skeleton";
+import Pagination from "../../components/Pagination/Pagination";
 const API_KEY = import.meta.env.VITE_KINOPOISK_API_KEY;
 
 const tabs = [
@@ -75,30 +76,6 @@ function MoviesTabsAll() {
   const activeData = moviesData[tabs[activeTab].id] || [];
   const activeError = errors[tabs[activeTab].id];
 
-  const handlePageClick = (pageNumber) => {
-    setPage(pageNumber);
-  };
-
-  const handlePrevClick = () => {
-    if (page > 1) setPage(page - 1);
-  };
-
-  const handleNextClick = () => {
-    if (page < totalPages) setPage(page + 1);
-  };
-
-  // Функция для отображения ограниченного количества страниц
-  const getVisiblePages = () => {
-    const visiblePages = 5; // Максимальное количество отображаемых кнопок
-    const startPage = Math.max(1, page - Math.floor(visiblePages / 2));
-    const endPage = Math.min(totalPages, startPage + visiblePages - 1);
-
-    return Array.from(
-      { length: endPage - startPage + 1 },
-      (_, i) => startPage + i
-    );
-  };
-
   return (
     <section className={styles.tabs}>
       <div className="container">
@@ -166,25 +143,7 @@ function MoviesTabsAll() {
           </div>
 
           {totalPages > 1 && (
-            <div className={styles.pagination}>
-              <button onClick={handlePrevClick} disabled={page === 1}>
-                {"<"}
-              </button>
-
-              {getVisiblePages().map((pageNumber) => (
-                <button
-                  key={pageNumber}
-                  onClick={() => handlePageClick(pageNumber)}
-                  className={page === pageNumber ? styles.activePage : ""}
-                >
-                  {pageNumber}
-                </button>
-              ))}
-
-              <button onClick={handleNextClick} disabled={page === totalPages}>
-                {">"}
-              </button>
-            </div>
+            <Pagination page={page} totalPages={totalPages} setPage={setPage} />
           )}
         </div>
       </div>

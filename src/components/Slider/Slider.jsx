@@ -12,6 +12,8 @@ function Slider() {
     query: "field=year&search=2025-2025",
   });
 
+  const movies = data?.docs || [];
+
   const [index, setIndex] = useState(0);
 
   const handlePrev = () => setIndex((prev) => (prev <= 0 ? 0 : prev - 1));
@@ -37,9 +39,9 @@ function Slider() {
           {isLoading ? (
             <Skeleton type="sliderCard" count={2} />
           ) : (
-            data &&
-            data.length > 0 &&
-            data
+            movies &&
+            movies.length > 0 &&
+            movies
               .slice(index, index + 2)
               .map((movie) => <MovieSlide movie={movie} key={movie.id} />)
           )}
@@ -47,7 +49,7 @@ function Slider() {
           <button
             className={styles.nextButton}
             onClick={handleNext}
-            disabled={isLoading || !data || index >= data.length - 2}
+            disabled={isLoading || !movies || index >= movies.length - 2}
           >
             {">"}
           </button>

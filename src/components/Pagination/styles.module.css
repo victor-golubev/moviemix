@@ -1,28 +1,33 @@
-.footer {
-  margin-top: 50px;
-  padding: 40px 0;
-  background-color: #080423;
-}
-
-.footer_container {
+.pagination {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
+  margin: 30px 0;
+  gap: 12px;
 }
 
-.logo {
-  text-transform: uppercase;
-  font-size: 56px;
-  font-weight: 700;
-  flex-shrink: 0;
+.pagination button {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border: 1px solid #5c5c5c;
+  color: #5c5c5c;
+  cursor: pointer;
+}
+
+.pagination button:hover {
+  background-color: #ff2779;
   color: #fff;
+  border: 1px solid #ff2779;
+  transition: color 0.2s ease, background-color 0.2s ease, border 0.2s ease;
 }
 
-.logo span {
-  color: #ff2779;
-}
-
-.copyright {
-  font-size: 22px;
+.pagination button.activePage {
+  background-color: #ff2779;
+  border: 1px solid #ff2779;
   color: #fff;
 }
