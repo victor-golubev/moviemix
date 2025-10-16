@@ -4,6 +4,7 @@ import useFetch from "../../helpers/hooks/useFetch";
 import { Link } from "react-router-dom";
 import noPhoto from "../../img/no-photo.jpg";
 import MovieSlide from "../MovieSlide/MovieSlide";
+import Skeleton from "../Skeleton/Skeleton";
 
 function Slider() {
   const { data, isLoading, error } = useFetch({
@@ -13,9 +14,7 @@ function Slider() {
 
   const [index, setIndex] = useState(0);
 
-  const handlePrev = () =>
-    setIndex((prev) => (data && prev <= 0 ? 0 : prev - 1));
-
+  const handlePrev = () => setIndex((prev) => (prev <= 0 ? 0 : prev - 1));
   const handleNext = () =>
     setIndex((prev) => (data && prev >= data.length - 2 ? prev : prev + 1));
 
@@ -23,33 +22,36 @@ function Slider() {
     <section className={styles.slider}>
       <div className="container">
         <h3 className="section-title">Новинки кино</h3>
-        {isLoading && <div>Загрузка...</div>}
+
         {error && <div>Ошибка загрузки...</div>}
-        {data && data.length > 0 && (
-          <>
-            <div className={styles.sliderContainer}>
-              <button
-                className={styles.prevButton}
-                onClick={handlePrev}
-                disabled={!data || index <= 0}
-              >
-                {"<"}
-              </button>
 
-              {data.slice(index, index + 2).map((movie) => (
-                <MovieSlide movie={movie} key={movie.id} />
-              ))}
+        <div className={styles.sliderContainer}>
+          <button
+            className={styles.prevButton}
+            onClick={handlePrev}
+            disabled={isLoading || index <= 0}
+          >
+            {"<"}
+          </button>
 
-              <button
-                className={styles.nextButton}
-                onClick={handleNext}
-                disabled={!data || index >= data.length - 2}
-              >
-                {">"}
-              </button>
-            </div>
-          </>
-        )}
+          {isLoading ? (
+            <Skeleton type="sliderCard" count={2} />
+          ) : (
+            data &&
+            data.length > 0 &&
+            data
+              .slice(index, index + 2)
+              .map((movie) => <MovieSlide movie={movie} key={movie.id} />)
+          )}
+
+          <button
+            className={styles.nextButton}
+            onClick={handleNext}
+            disabled={isLoading || !data || index >= data.length - 2}
+          >
+            {">"}
+          </button>
+        </div>
       </div>
     </section>
   );

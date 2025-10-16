@@ -1,7 +1,10 @@
+.filtersWrapper {
+  margin-bottom: 30px;
+}
+
 .filters {
   display: flex;
   gap: 20px;
-  margin-bottom: 30px;
 }
 
 .selectWrapper {

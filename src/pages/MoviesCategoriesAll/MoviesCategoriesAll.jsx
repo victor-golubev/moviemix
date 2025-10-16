@@ -4,17 +4,17 @@ import { Link } from "react-router-dom";
 import CardMovie from "../../components/CardMovie/CardMovie";
 import MoviesFilters from "../../components/MoviesFilters/MoviesFilters";
 import Pagination from "../../components/Pagination/Pagination";
-import useFetch from "../../helpers/hooks/useFetch"; // ⚠️ ДОБАВЛЕН ИМПОРТ
+import useFetch from "../../helpers/hooks/useFetch";
+import Skeleton from "../../components/Skeleton/Skeleton";
 
 const API_KEY = import.meta.env.VITE_KINOPOISK_API_KEY;
 
 function MoviesCategoriesAll() {
-  const [query, setQuery] = useState(""); // MoviesFilters вернёт сюда готовую строку
+  const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
-  const [limit] = useState(12); // Лимит на странице
+  const [limit] = useState(12);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Формируем полный query с пагинацией
   const fullQuery = query
     ? `${query}&page=${page}&limit=${limit}`
     : `page=${page}&limit=${limit}`;
@@ -25,17 +25,13 @@ function MoviesCategoriesAll() {
     error,
   } = useFetch({
     endpoint: "movie",
-    query: fullQuery, // ✅ Передаём page и limit в запрос
+    query: fullQuery,
   });
 
-  // Обновляем totalPages, когда приходят данные
   useEffect(() => {
     if (moviesData?.pages) {
       setTotalPages(moviesData.pages);
     } else if (moviesData?.docs) {
-      // Если API не возвращает pages, можно вычислить вручную, если известно total
-      // Например: Math.ceil(total / limit)
-      // Здесь предположим, что API возвращает `total` и `limit`
       const total = moviesData.total || 0;
       setTotalPages(Math.ceil(total / limit));
     }
@@ -66,17 +62,16 @@ function MoviesCategoriesAll() {
 
         <div className={styles.filtered_movies_wrap}>
           <div className={styles.filtered_movies}>
-            {isLoading && <p>Загрузка...</p>}
+            {isLoading && <Skeleton type="listCard" count={12} />}
             {error && <p>Ошибка: {error.message || error}</p>}
-            {!isLoading &&
-              !error &&
-              (!moviesData?.docs || moviesData.docs.length === 0) && (
-                <p>Нет данных для отображения</p>
-              )}
+
+            {!isLoading && !error && moviesData.length === 0 && (
+              <p>Нет данных для отображения</p>
+            )}
 
             {!isLoading &&
               !error &&
-              moviesData?.docs?.map((movie) => (
+              moviesData.map((movie) => (
                 <CardMovie movie={movie} key={movie.id} />
               ))}
           </div>

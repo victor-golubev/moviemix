@@ -5,6 +5,7 @@ const API_KEY = import.meta.env.VITE_KINOPOISK_API_KEY;
 import { Link } from "react-router-dom";
 import CardMovie from "../CardMovie/CardMovie";
 import tabs from "../../helpers/tabs";
+import Skeleton from "../Skeleton/Skeleton";
 
 function MoviesTabs() {
   const [activeTab, setActiveTab] = useState(0);
@@ -73,18 +74,24 @@ function MoviesTabs() {
         </div>
 
         <div className={styles.tab}>
-          {loading[tabs[activeTab].id] && <p>Загрузка...</p>}
+          {loading[tabs[activeTab].id] && (
+            <Skeleton type="tabButton" count={3} />
+          )}
           {errors[tabs[activeTab].id] && (
             <p>Ошибка: {errors[tabs[activeTab].id].message}</p>
+          )}
+
+          {!activeData?.length && !errors[tabs[activeTab].id] && (
+            <Skeleton type="listCard" count={8} />
           )}
 
           {activeData?.map((movie) => (
             <CardMovie movie={movie} key={movie.id} />
           ))}
 
-          {!loading[tabs[activeTab].id] && !activeData?.length && (
-            <p>Фильмы не найдены</p>
-          )}
+          {!loading[tabs[activeTab].id] &&
+            !activeData?.length &&
+            !errors[tabs[activeTab].id] && <p>Фильмы не найдены</p>}
         </div>
       </div>
     </section>

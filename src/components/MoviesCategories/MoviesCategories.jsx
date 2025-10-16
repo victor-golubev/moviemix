@@ -5,6 +5,7 @@ const API_KEY = import.meta.env.VITE_KINOPOISK_API_KEY;
 import { Link } from "react-router-dom";
 import CardMovie from "./../CardMovie/CardMovie";
 import MoviesFilters from "../MoviesFilters/MoviesFilters";
+import Skeleton from "../Skeleton/Skeleton";
 
 function MoviesCategories() {
   const [query, setQuery] = useState(""); // MoviesFilters вернёт сюда готовую строку
@@ -29,7 +30,7 @@ function MoviesCategories() {
           </Link>
         </div>
         <div className={styles.filtered_movies}>
-          {isLoading && <p>Загрузка...</p>}
+          {isLoading && <Skeleton type="listCard" count={8} />}
           {error && <p>Ошибка: {error.message}</p>}
 
           {!isLoading && moviesData && moviesData.length === 0 && (

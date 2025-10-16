@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "./styles.module.css";
 import noPhoto from "../../img/no-photo.jpg";
 import { Link } from "react-router-dom";
+import Skeleton from "../../components/Skeleton/Skeleton";
 const API_KEY = import.meta.env.VITE_KINOPOISK_API_KEY;
 
 const tabs = [
@@ -123,7 +124,7 @@ function MoviesTabsAll() {
 
         <div className={styles.tab}>
           <div className={styles.tab_content}>
-            {loading && <p>Loading...</p>}
+            {loading && <Skeleton type="listCard" count={12} />}
             {activeError && <p>Error: {activeError.message}</p>}
 
             {!loading && !activeError && activeData.length === 0 && (
