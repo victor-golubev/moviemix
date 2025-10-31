@@ -69,22 +69,22 @@
   color: #fff;
   font-size: 16px;
   font-weight: 500;
-  background-color: #ff2779;
+  background-color: var(--color-primary);
   border-radius: 10px;
   padding: 0px 8px;
 }
 
 table {
-  border-collapse: collapse; /* Убираем двойные линии */
-  width: 100%; /* Таблица занимает всю ширину родителя */
-  table-layout: auto; /* Автоширина колонок */
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: auto;
   color: #808080;
 }
 
 td:first-child {
-  white-space: nowrap; /* Не переносим текст */
-  width: 1%; /* Минимальная ширина, чтобы подстроилась под контент */
-  padding-right: 10px; /* Отступ справа */
+  white-space: nowrap;
+  width: 1%;
+  padding-right: 10px;
   padding-left: 0;
 }
 
@@ -100,10 +100,10 @@ td {
 }
 
 .similar_movies_content {
-  display: flex; /* располагаем элементы в ряд */
-  gap: 16px; /* расстояние между карточками */
-  overflow-x: auto; /* горизонтальная прокрутка */
-  padding: 16px 0; /* отступы сверху и снизу */
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 16px 0;
   scroll-behavior: smooth;
 }
 
@@ -149,7 +149,7 @@ td {
   color: #fff;
   font-size: 16px;
   font-weight: 500;
-  background-color: #ff2779;
+  background-color: var(--color-primary);
   border-radius: 10px;
   padding: 0px 8px;
 }

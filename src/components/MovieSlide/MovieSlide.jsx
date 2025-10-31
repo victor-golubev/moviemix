@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import { Link } from "react-router-dom";
-import noPhoto from "../../img/no-photo.jpg";
+import noPhoto from "@/assets/img/no-photo.jpg";
 
 function MovieSlide({ movie }) {
   return (
@@ -25,7 +25,10 @@ function MovieSlide({ movie }) {
             : "Описание отсутствует"}
         </div>
 
-        <Link to={`/movie/${movie.id}`} className={styles.movieWatchBtn}>
+        <Link
+          to={`/movie/${movie.id}`}
+          className={`${styles.movieWatchBtn} button`}
+        >
           Смотреть
         </Link>
       </div>

@@ -1,0 +1,155 @@
+.details {
+  display: flex;
+  gap: 40px;
+}
+
+.title {
+  font-size: 36px;
+  margin-bottom: 30px;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+.item {
+  width: 100%;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+.movie_title {
+  font-size: 42px;
+}
+
+.about_title {
+  font-size: 26px;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.details .poster {
+  width: 450px;
+  height: 600px;
+  flex-shrink: 0;
+}
+
+.poster img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.name {
+  margin-top: 10px;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info_year {
+  color: #969696;
+}
+
+.info_rating {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: var(--color-primary);
+  border-radius: 10px;
+  padding: 0px 8px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: auto;
+  color: #808080;
+}
+
+td:first-child {
+  white-space: nowrap;
+  width: 1%;
+  padding-right: 10px;
+  padding-left: 0;
+}
+
+td {
+  padding: 5px 10px;
+  vertical-align: top;
+}
+
+.similar_movies {
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
+}
+
+.similar_movies_content {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 16px 0;
+  scroll-behavior: smooth;
+}
+
+.similar_movies_title {
+  font-size: 32px;
+  text-align: center;
+}
+
+.item {
+  width: 300px;
+}
+
+.poster {
+  width: 300px;
+  height: 450px;
+}
+
+.poster img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.name {
+  margin-top: 10px;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.movie_info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info_year {
+  color: #969696;
+}
+
+.info_rating {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: var(--color-primary);
+  border-radius: 10px;
+  padding: 0px 8px;
+}

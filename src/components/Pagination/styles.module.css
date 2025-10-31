@@ -20,14 +20,14 @@
 }
 
 .pagination button:hover {
-  background-color: #ff2779;
+  background-color: var(--color-primary);
   color: #fff;
-  border: 1px solid #ff2779;
+  border: 1px solid var(--color-primary);
   transition: color 0.2s ease, background-color 0.2s ease, border 0.2s ease;
 }
 
 .pagination button.activePage {
-  background-color: #ff2779;
-  border: 1px solid #ff2779;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
   color: #fff;
 }

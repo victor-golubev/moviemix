@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import styles from "./styles.module.css";
-import useFetch from "../../helpers/hooks/useFetch";
+import useFetch from "@/hooks/useFetch";
 
-function MoviesFilters({ onChange }) {
+function MoviesFiltersPanel({ onChange }) {
   const [filters, setFilters] = useState({
     genre: "",
     country: "",
@@ -10,7 +10,6 @@ function MoviesFilters({ onChange }) {
     rating: "",
   });
 
-  // Жанры и страны из API
   const { data: genres = [] } = useFetch({
     endpoint: "movie/possible-values-by-field",
     query: "field=genres.name",
@@ -23,7 +22,6 @@ function MoviesFilters({ onChange }) {
     version: "1",
   });
 
-  // Собираем query при изменении фильтров
   useEffect(() => {
     const queryParams = [];
 
@@ -35,7 +33,6 @@ function MoviesFilters({ onChange }) {
     onChange(queryParams.join("&"));
   }, [filters, onChange]);
 
-  // Универсальный хэндлер
   const handleFilterChange = (name, value) => {
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
@@ -43,7 +40,6 @@ function MoviesFilters({ onChange }) {
   return (
     <div className={styles.filtersWrapper}>
       <div className={styles.filters}>
-        {/* Жанр */}
         <div className={styles.selectWrapper}>
           <select
             value={filters.genre}
@@ -58,7 +54,6 @@ function MoviesFilters({ onChange }) {
           </select>
         </div>
 
-        {/* Страна */}
         <div className={styles.selectWrapper}>
           <select
             value={filters.country}
@@ -73,7 +68,6 @@ function MoviesFilters({ onChange }) {
           </select>
         </div>
 
-        {/* Год */}
         <div className={styles.selectWrapper}>
           <select
             value={filters.year}
@@ -88,7 +82,6 @@ function MoviesFilters({ onChange }) {
           </select>
         </div>
 
-        {/* Рейтинг */}
         <div className={styles.selectWrapper}>
           <select
             value={filters.rating}
@@ -111,4 +104,4 @@ function MoviesFilters({ onChange }) {
   );
 }
 
-export default MoviesFilters;
+export default MoviesFiltersPanel;

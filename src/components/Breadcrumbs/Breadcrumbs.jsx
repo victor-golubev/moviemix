@@ -6,7 +6,7 @@ function Breadcrumbs() {
 
   const handleBack = (e) => {
     e.preventDefault();
-    navigate(-1); // возвращает на предыдущую страницу
+    navigate(-1);
   };
 
   return (

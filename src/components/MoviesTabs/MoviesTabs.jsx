@@ -1,65 +1,46 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styles from "./styles.module.css";
-import useFetch from "../../helpers/hooks/useFetch";
-const API_KEY = import.meta.env.VITE_KINOPOISK_API_KEY;
 import { Link } from "react-router-dom";
+
+import usePopularMoviesTabs from "@/hooks/usePopularMoviesTabs";
+import usePopularMovies from "@/hooks/usePopularMovies";
+
+import Skeleton from "@/components/Skeleton/Skeleton";
+import Pagination from "@/components/Pagination/Pagination";
+import noPhoto from "@/assets/img/no-photo.jpg";
 import CardMovie from "../CardMovie/CardMovie";
-import tabs from "../../helpers/tabs";
-import Skeleton from "../Skeleton/Skeleton";
 
-function MoviesTabs() {
-  const [activeTab, setActiveTab] = useState(0);
-  const [moviesData, setMoviesData] = useState({});
-  const [loading, setLoading] = useState({});
-  const [errors, setErrors] = useState({});
+function MoviesTabs({ showPagination = false, limit = 8, showAll = false }) {
+  const { tabs, activeTab, setActiveTab } = usePopularMoviesTabs();
+  const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    const fetchTabs = async () => {
-      const promises = tabs.map(async (tab) => {
-        setErrors((prev) => ({ ...prev, [tab.id]: true }));
+  const { moviesData, isLoading, errors, totalPages } = usePopularMovies({
+    tabs,
+    activeTab,
+    page,
+    limit,
+  });
 
-        try {
-          const res = await fetch(
-            `https://api.kinopoisk.dev/v1.4/${tab.endpoint}?${tab.query}&limit=8`,
-            { headers: { "X-API-KEY": API_KEY } }
-          );
-          if (!res.ok) throw new Error("Fetch error");
-          const data = await res.json();
-          return { id: tab.id, data: data.docs };
-        } catch (err) {
-          return { id: tab.id, error: err };
-        } finally {
-          setErrors((prev) => ({ ...prev, [tab.id]: false }));
-        }
-      });
+  if (!tabs || tabs.length === 0) return null;
 
-      const results = await Promise.all(promises);
-      const newMovies = {};
-      const newErrors = {};
-      results.forEach((r) => {
-        if (r.data) newMovies[r.id] = r.data;
-        if (r.error) newErrors[r.id] = r.error;
-      });
-      setMoviesData(newMovies);
-      setErrors(newErrors);
-    };
-
-    fetchTabs();
-  }, []);
-
-  const activeData = moviesData[tabs[activeTab].id];
-  const activeError = errors[tabs[activeTab].id];
+  const currentTab = tabs[activeTab];
+  const activeData = currentTab ? moviesData[currentTab.id] || [] : [];
+  const activeError = currentTab ? errors[currentTab.id] : null;
 
   return (
     <section className={styles.tabs}>
       <div className="container">
         <h3 className="section-title">Что посмотреть</h3>
+
         <div className={styles.labels_wrapper}>
           <div className={styles.labels}>
             {tabs.map((tab, i) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(i)}
+                onClick={() => {
+                  setActiveTab(i);
+                  setPage(1);
+                }}
                 className={`${styles.label} ${
                   activeTab === i ? styles.active : ""
                 }`}
@@ -68,31 +49,30 @@ function MoviesTabs() {
               </button>
             ))}
           </div>
-          <Link to={`/popular-movies`} className={styles.see_all}>
-            Смотреть все
-          </Link>
+          {showAll && (
+            <Link to="/popular-movies/" className="show_all">
+              Смотреть все
+            </Link>
+          )}
         </div>
 
+        {activeError && <p className="error">{activeError.message}</p>}
         <div className={styles.tab}>
-          {loading[tabs[activeTab].id] && (
-            <Skeleton type="tabButton" count={3} />
-          )}
-          {errors[tabs[activeTab].id] && (
-            <p>Ошибка: {errors[tabs[activeTab].id].message}</p>
-          )}
+          {isLoading && <Skeleton type="listCard" count={12} />}
 
-          {!activeData?.length && !errors[tabs[activeTab].id] && (
-            <Skeleton type="listCard" count={8} />
+          {!isLoading && !activeError && activeData.length === 0 && (
+            <p className={styles.empty}>Нет данных для отображения</p>
           )}
 
-          {activeData?.map((movie) => (
-            <CardMovie movie={movie} key={movie.id} />
-          ))}
-
-          {!loading[tabs[activeTab].id] &&
-            !activeData?.length &&
-            !errors[tabs[activeTab].id] && <p>Фильмы не найдены</p>}
+          {!isLoading &&
+            activeData.map((movie) => (
+              <CardMovie movie={movie} key={movie.id} />
+            ))}
         </div>
+
+        {showPagination && totalPages > 1 && (
+          <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+        )}
       </div>
     </section>
   );

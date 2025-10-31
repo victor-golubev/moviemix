@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import { Link } from "react-router-dom";
-import noPhoto from "../../img/no-photo.jpg";
+import noPhoto from "@/assets/img/no-photo.jpg";
 
 function CardMovie({ movie }) {
   return (
@@ -11,11 +11,13 @@ function CardMovie({ movie }) {
           alt={`Постер фильма ${movie.name || movie.alternativeName}`}
         />
       </div>
-      <h4 className={styles.name}>{movie.name || movie.alternativeName}</h4>
-      <div className={styles.info}>
-        <div className={styles.year}>{movie.year || "--"}</div>
-        <div className={styles.rating}>
-          {movie.rating?.imdb > 0 ? movie.rating.imdb : "--"}
+      <div className={styles.content}>
+        <h4 className={styles.name}>{movie.name || movie.alternativeName}</h4>
+        <div className={styles.info}>
+          <div className={styles.year}>{movie.year || "--"}</div>
+          <div className={styles.rating}>
+            {movie.rating?.imdb > 0 ? movie.rating.imdb : "--"}
+          </div>
         </div>
       </div>
     </Link>
