@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { ERROR_MESSAGES } from "@/constants/messages";
 
 function useFetch({ endpoint = "movie", query = "", limit, version = "1.4" }) {
   const [data, setData] = useState([]);
@@ -29,7 +30,7 @@ function useFetch({ endpoint = "movie", query = "", limit, version = "1.4" }) {
         });
 
         const contentType = response.headers.get("content-type");
-        if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+        if (!response.ok) throw new Error(ERROR_MESSAGES.default);
         if (!contentType || !contentType.includes("application/json")) {
           const text = await response.text();
           throw new Error(`Response is not JSON: ${text}`);

@@ -1,0 +1,11 @@
+.logo {
+  width: 30%;
+  text-transform: uppercase;
+  font-size: 56px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.logo span {
+  color: var(--color-primary);
+}

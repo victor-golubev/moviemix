@@ -19,7 +19,7 @@
 }
 
 .logo span {
-  color: #ff2779;
+  color: var(--color-primary);
 }
 
 .copyright {

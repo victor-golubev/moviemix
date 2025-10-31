@@ -6,6 +6,15 @@
   font-size: 18px;
   color: #9c9c9c;
   margin-right: 10px;
+  transition: all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+}
+
+.link:hover {
+  color: var(--color-primary);
 }
 
 .arrow {

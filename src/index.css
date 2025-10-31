@@ -1,18 +1,28 @@
-/* reset.css */
+:root {
+  --color-bg: #f1f1f1;
+  --color-primary: #ff2779;
+  --color-primary-dark: #c70750;
+  --color-primary-light: #eb4e8a;
+  --color-dark-blue: #080423;
+  --color-gray: #d6d6d6;
+  --color-text: #000000;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  overflow-wrap: break-word;
 }
 
 #root {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Весь экран */
+  min-height: 100vh;
 }
 
 main {
-  flex: 1; /* main растягивается и занимает всё доступное место */
+  flex: 1;
 }
 
 footer {
@@ -25,7 +35,7 @@ footer {
 html {
   height: 100%;
   margin: 0;
-  scroll-behavior: smooth; /* плавная прокрутка */
+  scroll-behavior: smooth;
 }
 
 body {
@@ -64,22 +74,34 @@ textarea {
   margin: 0;
 }
 
-/* Убираем стандартные стили списков */
 ul,
 ol {
   list-style: none;
 }
 
-/* Предотвращаем переполнение */
-* {
-  overflow-wrap: break-word;
-}
-
 .container {
   width: 100%;
   max-width: 1320px;
-  margin: 0 auto;
+  margin: 40px auto;
   padding: 0 var(--space-md);
+}
+
+.button {
+  background-color: var(--color-primary);
+  transition: all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+}
+
+.button:hover {
+  background: var(--color-primary-dark);
+  transition: all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
 }
 
 .btn {
@@ -115,7 +137,6 @@ ol {
   color: white;
 }
 
-/* Формы */
 .form-control {
   margin-bottom: var(--space-md);
 }
@@ -143,7 +164,6 @@ ol {
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 
-/* Карточка */
 .card {
   background: var(--color-bg);
   border-radius: var(--radius-md);
@@ -152,7 +172,6 @@ ol {
   margin-bottom: var(--space-lg);
 }
 
-/* Сетка (упрощённая) */
 .grid {
   display: grid;
   gap: var(--space-md);
@@ -179,4 +198,39 @@ section {
   .grid {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+.show_all {
+  position: relative;
+  padding-right: 20px;
+}
+
+.show_all::after {
+  position: absolute;
+  right: 0;
+  top: 7px;
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  rotate: 45deg;
+  border-right: 1px solid #000;
+  border-top: 1px solid #000;
+  transition: all 0.2s ease;
+}
+
+.show_all:hover {
+  color: var(--color-primary);
+}
+
+.show_all:hover::after {
+  right: -5px;
+  border-right: 1px solid var(--color-primary);
+  border-top: 1px solid var(--color-primary);
+}
+
+.error {
+  font-size: 32px;
+  text-align: center;
+  color: var(--color-primary);
 }

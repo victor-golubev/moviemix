@@ -1,40 +1,24 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/Header/Header";
-import MoviesTabs from "./components/MoviesTabs/MoviesTabs";
-import Footer from "./components/Footer/Footer";
-import MoviesCategories from "./components/MoviesCategories/MoviesCategories";
-import SearchResults from "./pages/SearchResults/SearchResults";
-import MovieDetails from "./pages/MovieDetails/MovieDetails";
-import MoviesTabsAll from "./pages/MoviesTabsAll/MoviesTabsAll";
-import MoviesCategoriesAll from "./pages/MoviesCategoriesAll/MoviesCategoriesAll";
-import Slider from "./components/Slider/Slider";
+import SearchResultsPage from "@/pages/SearchResultsPage/SearchResultsPage";
+import MovieDetailsPage from "@/pages/MovieDetailsPage/MovieDetailsPage";
+import MoviesTabsPage from "@/pages/MoviesTabsPage/MoviesTabsPage";
+import MoviesCategoriesPage from "@/pages/MoviesCategoriesPage/MoviesCategoriesPage";
+import Layout from "@/components/Layout/Layout";
+import HomePage from "@/pages/HomePage/HomePage";
 
 function App() {
   return (
-    <>
-      <Router>
-        <Header />
-        <main>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <Slider />
-                  <MoviesTabs />
-                  <MoviesCategories limit={8} />
-                </>
-              }
-            />
-            <Route path="/search/:query" element={<SearchResults />} />
-            <Route path="/movie/:id" element={<MovieDetails />} />
-            <Route path="/popular-movies/" element={<MoviesTabsAll />} />
-            <Route path="/categories/" element={<MoviesCategoriesAll />} />
-          </Routes>
-        </main>
-        <Footer />
-      </Router>
-    </>
+    <Router>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/search/:query" element={<SearchResultsPage />} />
+          <Route path="/movie/:id" element={<MovieDetailsPage />} />
+          <Route path="/popular-movies/" element={<MoviesTabsPage />} />
+          <Route path="/categories/" element={<MoviesCategoriesPage />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 

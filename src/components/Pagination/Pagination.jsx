@@ -13,9 +13,8 @@ function Pagination({ page, totalPages, setPage }) {
     if (page < totalPages) setPage(page + 1);
   };
 
-  // Функция для отображения ограниченного количества страниц
   const getVisiblePages = () => {
-    const visiblePages = 10; // Максимальное количество отображаемых кнопок
+    const visiblePages = 10;
     const startPage = Math.max(1, page - Math.floor(visiblePages / 2));
     const endPage = Math.min(totalPages, startPage + visiblePages - 1);
 
